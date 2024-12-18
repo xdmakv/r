@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przekierowanie</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background: #1a001a;
+            overflow: hidden;
+            color: #e600e6;
+            text-shadow: 0 0 10px #e600e6, 0 0 20px #e600e6;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 1em;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-bottom: 2em;
+            text-align: center;
+        }
+
+        /* Animacja poświaty */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #e600e6, 0 0 20px #e600e6;
+            }
+            to {
+                text-shadow: 0 0 20px #ff33ff, 0 0 40px #ff33ff;
+            }
+        }
+
+        /* Styl przycisku */
+        #skip-btn {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background: #333;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+            box-shadow: 0 0 10px #e600e6, 0 0 20px #e600e6;
+            transition: all 0.3s ease;
+        }
+
+        #skip-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Pasek napełniania przycisku */
+        #skip-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: #e600e6;
+            opacity: 0.7;
+            transition: width 3s linear;
+        }
+
+        #skip-btn.enabled::after {
+            width: 100%;
+        }
+
+        /* Animacja ruchu gwiazdek w tle */
+        @keyframes stars {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 1000px 1000px;
+            }
+        }
+
+        /* Tło z animacją gwiazdek */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            animation: stars 50s linear infinite;
+            z-index: -1;
+        }
+
+        /* Styl okna z fioletową poświatą */
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(230, 0, 230, 0.8);
+            text-align: center;
+        }
+
+        .container h1,
+        .container p {
+            color: #e600e6;
+        }
+
+        /* Countdown timer style */
+        #countdown {
+            font-size: 1.5em;
+            color: #e600e6;
+        }
+    </style>
+    <script>
+        let countdownTime = 5; // Countdown time in seconds
+        let countdownInterval;
+
+        function redirect() {
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.has('v')) {
+                const vParam = params.get('v');
+                window.location.href = `https://vider.info/vid/+${vParam}`;
+            } else if (params.has('f')) {
+                const fParam = params.get('f');
+                window.location.href = `https://freedisc.pl/${fParam},xdmakv`;
+            } else if (params.has('c')) {
+                const cParam = params.get('c');
+                window.location.href = `https://cda.pl/video/${cParam}`;
+            } else {
+                alert("Nieprawidłowy parametr w URL");
+            }
+        }
+
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = `Możesz przejść za ${countdownTime} sekund.`;
+            
+            if (countdownTime === 0) {
+                clearInterval(countdownInterval);
+                enableSkipButton();
+            } else {
+                countdownTime--;
+            }
+        }
+
+        function enableSkipButton() {
+            const skipButton = document.getElementById('skip-btn');
+            skipButton.disabled = false;
+            skipButton.classList.add('enabled');
+        }
+
+        window.onload = function() {
+            countdownInterval = setInterval(updateCountdown, 1000);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <a href="https://xdmakv.github.io/r/gnp.html"><img src="https://i.ibb.co/ScPjGVL/xdmakv.png" alt="xdmakv" width="300" height="300" border="0"></a>
+        <p id="countdown">Możesz przejść za 5 sekund.</p>
+        <button id="skip-btn" disabled onclick="redirect()">Przejdź do odcinka</button>
+    </div>
+</body>
+</html>
